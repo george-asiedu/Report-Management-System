@@ -104,7 +104,7 @@ export const Registration = () => {
                     ))}
 
                     <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-2">
                             <label className="tracking-wide text-sm font-medium">Name</label>
                             <input
                                 type="text"
