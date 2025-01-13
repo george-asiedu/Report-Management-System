@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ttuLogo from '../assets/ttu_logo.jpg';
+import { Link } from 'react-router-dom';
 
 export const Registration = () => {
     const [formData, setFormData] = useState({
@@ -95,8 +96,8 @@ export const Registration = () => {
                 <img className="w-full h-full object-cover" src={ttuLogo} alt="ttu logo" />
             </div>
             <div className="w-full lg:w-[50%]">
-                <form onSubmit={handleSubmit} className="w-full px-[5%] lg:px-0 lg:w-[400px] m-auto flex flex-col gap-4">
-                    <h2 className="text-xl font-bold tracking-wide">Register your account</h2>
+                <form onSubmit={handleSubmit} className="w-full px-[5%] lg:px-0 lg:w-[400px] m-auto flex flex-col gap-3">
+                    <h2 className="text-xl font-bold tracking-wide">Register your Account</h2>
 
                     {successMessage && <p className="text-green-600 text-xs tracking-wide">{successMessage}</p>}
                     {Object.keys(errors).map((key) => (
@@ -104,7 +105,7 @@ export const Registration = () => {
                     ))}
 
                     <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Name</label>
                             <input
                                 type="text"
@@ -115,7 +116,7 @@ export const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Email</label>
                             <input
                                 type="email"
@@ -126,7 +127,7 @@ export const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Phone</label>
                             <input
                                 type="text"
@@ -137,7 +138,7 @@ export const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Department</label>
                             <input
                                 type="text"
@@ -148,7 +149,7 @@ export const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Password</label>
                             <input
                                 type="password"
@@ -180,6 +181,14 @@ export const Registration = () => {
                     >
                         {loading ? 'Registering...' : 'Register'}
                     </button>
+                    <p className="text-sm tracking-wide -mt-2">
+                        Already have an account?
+                        <Link 
+                            to='/' 
+                            className="text-primary font-medium tracking-wide ml-1">
+                            Login
+                        </Link>
+                    </p>
                     <p className="text-xs tracking-wide text-center mt-3">&copy; 2025 Takoradi Technical University</p>
                 </form>
             </div>
