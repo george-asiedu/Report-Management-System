@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ttuLogo from '../assets/ttu_logo.jpg';
+import { Link } from 'react-router-dom';
 
 export const Login = () => {
     const [formData, setFormData] = useState({
@@ -81,7 +82,7 @@ export const Login = () => {
                     ))}
                     
                     <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Email</label>
                             <input
                                 type="email"
@@ -92,7 +93,7 @@ export const Login = () => {
                                 required
                             />
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[2px]">
                             <label className="tracking-wide text-sm font-medium">Password</label>
                             <input
                                 type="password"
@@ -112,8 +113,15 @@ export const Login = () => {
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
-
-                    <p className="text-xs tracking-wide text-center mt-3">&copy; 2025 Takoradi Technical University</p>
+                    <p className="text-sm tracking-wide -mt-2">
+                        Don&#39;t have an account?
+                        <Link 
+                            to="/register" 
+                            className="text-primary font-medium tracking-wide ml-1">
+                            Register
+                        </Link>
+                    </p>
+                    <p className="text-xs tracking-wide text-center mt-5">&copy; 2025 Takoradi Technical University</p>
                 </form>
             </div>
         </div>
