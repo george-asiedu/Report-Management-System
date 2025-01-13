@@ -10,8 +10,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route index element={<Registration />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Registration />} />
+          <Route index element={<Login />} />
           <Route path='/dashboard' element={<Home />} />
         </Routes>
       </Router>
