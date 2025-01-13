@@ -7,3 +7,9 @@
   overflow-x: hidden;
   box-sizing: border-box;
 }
+
+@layer components {
+  .inputs {
+    @apply border border-secondary py-[6px] px-[14px] focus:outline-none focus:right-2 caret-primary text-black rounded-md w-full
+  }
+}
