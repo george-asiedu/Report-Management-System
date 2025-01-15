@@ -19,7 +19,7 @@ export const Dashboard = () => {
             <div className="flex items-center justify-between">
                 <span>
                     <h1 className="text-2xl font-bold text-black tracking-wide">Dashboard</h1>
-                    <p className="mt-3 tracking-wide text-lg text-gray-600">
+                    <p className="mt-3 tracking-wide text-gray-600">
                         Hello👋 <strong>William!</strong> Welcome to your dashboard!.
                     </p>
                 </span>
