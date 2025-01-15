@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Registration } from './authentication/Registration';
 import { Login } from './authentication/Login';
-import { Home } from './student-dashboard/home';
+import { HomeContent } from './student-dashboard/HomeContent';
 
 function App() {
 
@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path='/register' element={<Registration />} />
           <Route index element={<Login />} />
-          <Route path='/dashboard' element={<Home />} />
+          <Route path='/dashboard' element={<HomeContent />} />
         </Routes>
       </Router>
     </>
