@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ttuLogo from '../assets/ttu_logo.jpg';
 import { Link } from 'react-router-dom';
+import { addDocument } from '../firebase/firestore';
 
 export const Registration = () => {
     const [formData, setFormData] = useState({
@@ -57,32 +58,15 @@ export const Registration = () => {
         setSuccessMessage('');
 
         try {
-            const formDataToSend = new FormData();
-            Object.entries(formData).forEach(([key, value]) => {
-                formDataToSend.append(key, value);
-            });
 
-            const response = await fetch('https://localhost:3000/register', {
-                method: 'POST',
-                body: formDataToSend,
-            });
+            addDocument({
+                path:'/users', 
+                id: new Date().getTime().toLocaleString(),
+                data: {role:"student", ...formData}
+            })
 
-            if (response.ok) {
-                const data = await response.json();
                 setSuccessMessage('Registration successful!');
-                console.log('Registration response:', data); // Replace with further actions (e.g., redirect)
-                setFormData({
-                    name: '',
-                    email: '',
-                    password: '',
-                    phone: '',
-                    department: '',
-                    photo: null,
-                });
-            } else {
-                const errorData = await response.json();
-                setErrors({ apiError: errorData.message || 'Registration failed. Please try again.' });
-            }
+
         } catch (error) {
             setErrors({ apiError: 'Unable to connect to the server. Please try again later.', error });
         } finally {

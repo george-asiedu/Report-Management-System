@@ -1,12 +1,19 @@
 import { useState } from "react"
 import PropTypes from 'prop-types';
+import { addDocument } from "../firebase/firestore";
 
+
+const QUERY_TYPES = ["Portal", "Harrassment", "Suggestions", "Others"]
 const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
     const [formData, setFormData] = useState({
         reportTitle: '',
         message: '',
-        queryType: 'Computer Science',
+        queryType: 'N/A',
+        status:"open",
+        date: new Date().toLocaleString()
     });
+
+    const user = JSON.parse(localStorage.getItem('USER'));
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     
@@ -23,21 +30,11 @@ const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
         setIsSubmitting(true);
     
         try {
-            const response = await fetch('https://localhost:300', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-        
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-        
-            const data = await response.json();
-            console.log('Report submitted successfully:', data);
-            alert('Report submitted successfully!');
+            addDocument({
+                path:'/queries', 
+                id: new Date().getTime().toString(),
+                data:{...formData, ...user}
+            })
 
             if (onSubmitSuccess) {
                 onSubmitSuccess();
@@ -111,11 +108,7 @@ const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
                                 className="inputs"
                                 required
                             >
-                                <option value="Computer Science">Computer Science</option>
-                                <option value="Engineering">Engineering</option>
-                                <option value="Building">Building</option>
-                                <option value="Hospitality">Hospitality</option>
-                                <option value="Fashion">Fashion</option>
+                                {QUERY_TYPES.map(qT => <option value={qT} key={qT}>{qT}</option>)}
                             </select>
                         </div>
             

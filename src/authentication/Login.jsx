@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ttuLogo from '../assets/ttu_logo.jpg';
 import { Link } from 'react-router-dom';
+import { signIn } from "../firebase/auth";
+import { searchQuery } from "../firebase/firestore";
 
 export const Login = () => {
     const [formData, setFormData] = useState({
@@ -43,23 +45,26 @@ export const Login = () => {
         setSuccessMessage('');
 
         try {
-            const response = await fetch('https://localhost:3000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
+            
+            signIn(formData.email, formData.password).then(() => {
+                // find user with this id. 
+                searchQuery({
+                    path:"/users", 
+                    type:"email", 
+                    searchString: formData.email, 
+                    getData:(data) => {
+                        localStorage.setItem("USER", JSON.stringify(data[0]));
+                        window.location.href = "/dashboard"
+                    }
+                                })
                 setSuccessMessage('Login successful!');
-                console.log('Login response:', data); // Replace with further actions if needed
+                
                 setFormData({ email: '', password: '' });
-            } else {
-                const errorData = await response.json();
-                setErrors({ apiError: errorData.message || 'Login failed. Please try again.' });
-            }
+            }).catch(err => {
+                
+                setErrors({ apiError: err.message || 'Login failed. Please try again.' });
+            })
+
         } catch (error) {
             setErrors({ apiError: 'Unable to connect to the server. Please try again later.', error });
         } finally {
@@ -73,6 +78,7 @@ export const Login = () => {
                 <img className="w-full h-full object-cover" src={ttuLogo} alt="ttu logo" />
             </div>
             <div className="w-full lg:w-[50%]">
+                <h3 className="text-2xl lg:text-3xl pb-8 text-center">Incident Reporting System</h3>
                 <form onSubmit={handleSubmit} className="w-full px-[5%] lg:px-0 lg:w-[400px] m-auto flex flex-col gap-4">
                     <h2 className="text-xl font-bold tracking-wide italic">Welcome Back!</h2>
                     

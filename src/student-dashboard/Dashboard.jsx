@@ -5,6 +5,7 @@ import ReportTable from '../components/ReportTable';
 export const Dashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [refreshReports, setRefreshReports] = useState(false);
+    const user = JSON.parse(localStorage.getItem("USER"))
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -20,7 +21,7 @@ export const Dashboard = () => {
                 <span>
                     <h1 className="text-2xl font-bold text-black tracking-wide">Dashboard</h1>
                     <p className="mt-3 tracking-wide text-lg text-gray-600">
-                        Hello👋 <strong>William!</strong> Welcome to your dashboard!.
+                        Hello👋 <strong>{user?.name}</strong> Welcome to your dashboard!.
                     </p>
                 </span>
                 <button 

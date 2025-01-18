@@ -37,7 +37,8 @@ export const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                         <li className='flex w-[88%] items-center px-2 transition-all duration-300 py-1 gap-4 hover:bg-blue-600 hover:rounded-md absolute left-5 bottom-7'>
                         <img src={Logout} alt="logout icon" className='w-[22px]' />
                             <Link
-                                to='/login'
+                                onClick={() => localStorage.clear()}
+                                to='/'
                                 className="text-white text-[15px] leading-[1.7rem] tracking-wide">
                                 Logout
                             </Link>
