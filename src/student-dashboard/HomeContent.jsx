@@ -3,7 +3,7 @@ import { Dashboard } from "./Dashboard"
 import { Sidebar } from "./Sidebar"
 import { Navigate } from "react-router-dom";
 
-export const Home = () => {
+export const HomeContent = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const user = JSON.parse(localStorage.getItem("USER"))
 
