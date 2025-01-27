@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 
 export const HomeContent = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
     const user = JSON.parse(localStorage.getItem("USER"))
 
     const toggleSidebar = () => {

@@ -39,13 +39,13 @@ const ReportTable = ({ refresh }) => {
       <table className="w-full">
         <thead className="bg-[#e8eef8] sticky top-0 z-[1]">
           <tr>
-            <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
+            <th className="text-black hidden md:table-cell tracking-wide font-medium py-5 px-5 text-sm text-left">
               #
             </th>
             <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
-              Report Title
+              Summary
             </th>
-            <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
+            <th className="text-black hidden md:table-cell tracking-wide font-medium py-5 px-5 text-sm text-left">
               Message
             </th>
             <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
@@ -54,7 +54,7 @@ const ReportTable = ({ refresh }) => {
             <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
               Status
             </th>
-            <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
+            <th className="text-black hidden md:table-cell tracking-wide font-medium py-5 px-5 text-sm text-left">
               Date
             </th>
           </tr>
@@ -65,14 +65,15 @@ const ReportTable = ({ refresh }) => {
               key={index + 1}
               className="text-sm text-secondary tracking-wide"
             >
-              <td className="p-3 text-sm tracking-wide">{index + 1}</td>
+              <td className="p-3 text-sm hidden md:table-cell tracking-wide">{index + 1}</td>
               <td className="p-3 text-sm tracking-wide">
                 {report.reportTitle}
               </td>
-              <td className="p-3 text-sm tracking-wide">{report.message}</td>
+              <td className="p-3 text-sm hidden md:table-cell tracking-wide">{report.message}</td>
               <td className="p-3 text-sm tracking-wide">{report.queryType}</td>
               <td className="p-3 text-sm tracking-wide">{report.status}</td>
-              <td className="p-3 text-sm tracking-wide">{report?.date}</td>
+              <td className="p-3 text-sm  hidden md:table-cell tracking-wide">{report?.date}</td>
+
             </tr>
           ))}
         </tbody>

@@ -10,6 +10,6 @@
 
 @layer components {
   .inputs {
-    @apply border border-secondary py-[6px] px-[14px] focus:outline-none focus:right-2 caret-primary text-black rounded-md w-full
+    @apply border-gray-500 bg-gray-100 border py-[6px] px-[14px] focus:outline-none focus:right-2 caret-primary text-black rounded-md w-full
   }
 }

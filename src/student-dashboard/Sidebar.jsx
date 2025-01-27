@@ -9,7 +9,7 @@ export const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <div
                 className={`${
                     isSidebarOpen ? "lg:w-[23%]" : "lg:w-[13%]"
-                } bg-primary text-white transition-all duration-300 px-2 h-screen relative z-10`}
+                } bg-primary hidden md:block text-white transition-all duration-300 px-2 h-screen relative z-10`}
                 >
                 <div className="flex items-center justify-between px-4 py-6">
                     <h1
@@ -38,7 +38,7 @@ export const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                         <img src={Logout} alt="logout icon" className='w-[22px]' />
                             <Link
                                 onClick={() => localStorage.clear()}
-                                to='/'
+                                to='/login'
                                 className="text-white text-[15px] leading-[1.7rem] tracking-wide">
                                 Logout
                             </Link>

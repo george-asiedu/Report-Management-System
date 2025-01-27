@@ -1,145 +1,161 @@
-import { useState } from "react"
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { addDocument } from "../firebase/firestore";
 
-
-const QUERY_TYPES = ["Portal", "Harrassment", "Suggestions", "Others"]
+const QUERY_TYPES = [
+  "TTU Portal",
+  "Hostel Issues",
+  "Robbery",
+  "Harrassment",
+  "Suggestions",
+  "Lecturer Issues",
+  "Others",
+];
 const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
-    const [formData, setFormData] = useState({
-        reportTitle: '',
-        message: '',
-        queryType: 'N/A',
-        status:"open",
-        date: new Date().toLocaleString()
-    });
+  const [formData, setFormData] = useState({
+    reportTitle: "",
+    message: "",
+    queryType: "N/A",
+    status: "open",
+    date: new Date().toLocaleString(),
+  });
 
-    const user = JSON.parse(localStorage.getItem('USER'));
+  const user = JSON.parse(localStorage.getItem("USER"));
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-        }));
-    };
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-    
-        try {
-            addDocument({
-                path:'/queries', 
-                id: new Date().getTime().toString(),
-                data:{...formData, ...user}
-            })
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-            if (onSubmitSuccess) {
-                onSubmitSuccess();
-            }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-            setFormData({
-                reportTitle: '',
-                message: '',
-                queryType: 'General',
-            });
-    
-            onClose();
-        } catch (error) {
-            console.error('Failed to submit the report:', error);
-            alert('Failed to submit the report. Please try again.');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-    return (
-        isOpen && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
-                <div className="bg-white p-6 rounded-lg w-[400px]">
-                    <h2 className="text-xl font-semibold tracking-wide mb-3">Add Report</h2>
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-[2px">
-                            <label 
-                                htmlFor="reportTitle" 
-                                className="text-sm font-medium tracking-wide text-black">
-                                Report Title
-                            </label>
-                            <input
-                                id="reportTitle"
-                                name="reportTitle"
-                                type="text"
-                                value={formData.reportTitle}
-                                onChange={handleChange}
-                                className="inputs"
-                                required
-                            />
-                        </div>          
-                        <div className="flex flex-col gap-[2px">
-                            <label 
-                                htmlFor="message" 
-                                className="text-sm font-medium tracking-wide text-black">
-                                Message
-                            </label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                className="inputs"
-                                rows="4"
-                                required
-                            />
-                        </div>
-            
-                        <div className="flex flex-col gap-[2px">
-                            <label 
-                                htmlFor="queryType" 
-                                className="text-sm font-medium tracking-wide text-black">
-                                Query Type
-                            </label>
-                            <select
-                                id="queryType"
-                                name="queryType"
-                                value={formData.queryType}
-                                onChange={handleChange}
-                                className="inputs"
-                                required
-                            >
-                                {QUERY_TYPES.map(qT => <option value={qT} key={qT}>{qT}</option>)}
-                            </select>
-                        </div>
-            
-                        <div className="flex justify-end space-x-4">
-                            <button
-                                type="button"
-                                onClick={onClose}
-                                className="bg-gray-300 text-sm hover:bg-gray-400 text-black py-2 px-4 rounded-md"
-                                disabled={isSubmitting}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                className="bg-blue-600 text-sm hover:bg-blue-700 text-white py-2 px-4 rounded-md"
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? 'Submitting...' : 'Submit'}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    try {
+      addDocument({
+        path: "/queries",
+        id: new Date().getTime().toString(),
+        data: { ...formData, ...user },
+      });
+
+      if (onSubmitSuccess) {
+        onSubmitSuccess();
+      }
+
+      setFormData({
+        reportTitle: "",
+        message: "",
+        queryType: "General",
+      });
+
+      onClose();
+    } catch (error) {
+      console.error("Failed to submit the report:", error);
+      alert("Failed to submit the report. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    isOpen && (
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/80 bg-opacity-50">
+        <div className="bg-white p-6 rounded-lg w-[400px]">
+          <h2 className="text-xl font-semibold tracking-wide mb-3">
+            Add Report
+          </h2>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="queryType"
+                className="text-sm font-medium tracking-wide text-black"
+              >
+                Query Type
+              </label>
+              <select
+                id="queryType"
+                name="queryType"
+                value={formData.queryType}
+                onChange={handleChange}
+                className="inputs"
+                required
+              >
+                {QUERY_TYPES.map((qT) => (
+                  <option value={qT} key={qT}>
+                    {qT}
+                  </option>
+                ))}
+              </select>
             </div>
-        )
+
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="reportTitle"
+                className="text-sm font-medium tracking-wide text-black"
+              >
+                 Summary of Message
+              </label>
+              <input
+                id="reportTitle"
+                name="reportTitle"
+                type="text"
+                value={formData.reportTitle}
+                onChange={handleChange}
+                className="inputs"
+                required
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="message"
+                className="text-sm font-medium tracking-wide text-black"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                className="inputs resize-none border bg-gray-100"
+                rows="4"
+                required
+              />
+            </div>
+
+            <div className="flex justify-end space-x-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="bg-gray-300 text-sm hover:bg-gray-400 text-black py-2 px-4 rounded-md"
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-600 text-sm hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     )
+  );
 };
 
 export default AddReport;
 
 AddReport.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSubmitSuccess: PropTypes.func,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmitSuccess: PropTypes.func,
 };
