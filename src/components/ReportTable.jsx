@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { searchQuery } from "../firebase/firestore";
 
-const ReportTable = ({ refresh }) => {
+const ReportTable = () => {
   const [reports, setReports] = useState([]);
+  const [report, setReport] = useState({})
   const [isLoading, setIsLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem("USER"));
 
@@ -15,7 +15,7 @@ const ReportTable = ({ refresh }) => {
       getData: setReports,
     });
     setIsLoading(false)
-  }, [user, refresh]);
+  }, [user,]);
 
 
   if (isLoading) {
@@ -49,7 +49,7 @@ const ReportTable = ({ refresh }) => {
               Message
             </th>
             <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
-              Query Type
+              Category
             </th>
             <th className="text-black tracking-wide font-medium py-5 px-5 text-sm text-left">
               Status
@@ -63,27 +63,30 @@ const ReportTable = ({ refresh }) => {
           {reports.map((report, index) => (
             <tr
               key={index + 1}
-              className="text-sm text-secondary tracking-wide"
+              onClick={() => setReport(report)}
+              className="text-sm text-secondary cursor-pointer tracking-wide"
             >
               <td className="p-3 text-sm hidden md:table-cell tracking-wide">{index + 1}</td>
-              <td className="p-3 text-sm tracking-wide">
+              <td className="p-3 text-sm tracking-wide truncate">
                 {report.reportTitle}
               </td>
-              <td className="p-3 text-sm hidden md:table-cell tracking-wide">{report.message}</td>
+              <td className="p-3 text-sm hidden md:table-cell tracking-wide truncate">{report.message}</td>
               <td className="p-3 text-sm tracking-wide">{report.queryType}</td>
               <td className="p-3 text-sm tracking-wide">{report.status}</td>
               <td className="p-3 text-sm  hidden md:table-cell tracking-wide">{report?.date}</td>
-
             </tr>
           ))}
         </tbody>
       </table>
+     {report?.media?.length > 0 && <div className=" fixed flex-wrap left-0 flex gap-3 bottom-0 h-56 p-10 bg-black w-full">
+        {report?.media.map(md =>  <img key={md} className="w-full md:w-1/4 shrink-0 h-full object-cover" src={md} alt="report media" />
+        )}
+      
+      </div>}
     </div>
   );
 };
 
 export default ReportTable;
 
-ReportTable.propTypes = {
-  refresh: PropTypes.bool.isRequired,
-};
+

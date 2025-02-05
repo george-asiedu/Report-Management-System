@@ -72,11 +72,16 @@ export const addDocument = async ({ path, id, data }) => {
   await setDoc(doc(db, path, id), { ...data, timeStamp: serverTimestamp() });
 };
 
-export const uploadFile = async ({ path, file, getLink }) => {
-  const fileRef = ref(storage, path + "-" + idv4().slice(0, 10));
-  await uploadBytes(fileRef, file).then(() => {
-    getDownloadURL(fileRef).then((url) => getLink(url));
-  });
+export const uploadFile = async ({ path, files, getLink }) => {
+  const links = [];
+  for (let fl of files) {
+    const fileRef = ref(storage, path + "-" + idv4().slice(0, 10));
+    await uploadBytes(fileRef, fl).then(() => {
+      getDownloadURL(fileRef).then((url) => links.push(url));
+    });
+  }
+  console.log(links)
+  getLink(links);
 };
 
 export const deleteFile = async ({ url }) => {

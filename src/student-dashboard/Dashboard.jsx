@@ -7,16 +7,13 @@ import dashboard from "../assets/dashboard.svg";
 
 export const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [refreshReports, setRefreshReports] = useState(false);
   const user = JSON.parse(localStorage.getItem("USER"));
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleReportAdded = () => {
-    setRefreshReports(!refreshReports);
-  };
+
 
   return (
     <div className="md:w-[77%] w-screen  md:py-[3%] flex flex-col gap-4 bg-white">
@@ -54,13 +51,12 @@ export const Dashboard = () => {
         <h2 className="text-xl py-2 font-semibold tracking-wide text-black">
           Recent Reports
         </h2>
-        <ReportTable refresh={refreshReports} />
+        <ReportTable  />
       </div>
 
       <AddReport
         isOpen={isModalOpen}
         onClose={toggleModal}
-        onSubmitSuccess={handleReportAdded}
       />
       <div className="flex fixed bottom-3 w-full p-4 md:hidden gap-2 justify-center">
         <Link

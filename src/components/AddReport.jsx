@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { addDocument } from "../firebase/firestore";
+import { addDocument, uploadFile } from "../firebase/firestore";
 
 const QUERY_TYPES = [
   "TTU Portal",
@@ -11,7 +11,9 @@ const QUERY_TYPES = [
   "Lecturer Issues",
   "Others",
 ];
-const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
+const AddReport = ({ isOpen, onClose }) => {
+  const [media, setMedia] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     reportTitle: "",
     message: "",
@@ -36,30 +38,45 @@ const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      addDocument({
-        path: "/queries",
-        id: new Date().getTime().toString(),
-        data: { ...formData, ...user },
+
+    addDocument({
+      path: "/queries",
+      id: new Date().getTime().toString(),
+      data: { ...formData, media, ...user },
+    })
+      .then(() => {
+        onClose();
+        setIsSubmitting(false);
+        setFormData({
+          reportTitle: "",
+          message: "",
+          queryType: "General",
+        });
+      })
+      .catch((err) => {
+        setIsSubmitting(false);
+
+        console.error("Failed to submit the report:", err.message);
+        alert("Failed to submit the report. Please try again.");
       });
 
-      if (onSubmitSuccess) {
-        onSubmitSuccess();
-      }
+     
+  };
 
-      setFormData({
-        reportTitle: "",
-        message: "",
-        queryType: "General",
+  const uploadFiles =  async (e) => {
+    setLoading(true);
+    if (e.target.files.length > 0) {
+      let files = Array.from(e.target.files);
+      let path = "irs-images/";
+      await uploadFile({
+        path,
+        files,
+        getLink: setMedia,
       });
-
-      onClose();
-    } catch (error) {
-      console.error("Failed to submit the report:", error);
-      alert("Failed to submit the report. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+      setLoading(false);
+      
     }
+
   };
 
   return (
@@ -85,6 +102,7 @@ const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
                 className="inputs"
                 required
               >
+                <option value="">Select Query Type</option>
                 {QUERY_TYPES.map((qT) => (
                   <option value={qT} key={qT}>
                     {qT}
@@ -98,7 +116,7 @@ const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
                 htmlFor="reportTitle"
                 className="text-sm font-medium tracking-wide text-black"
               >
-                 Summary of Message
+                Summary of Message
               </label>
               <input
                 id="reportTitle"
@@ -127,6 +145,21 @@ const AddReport = ({ isOpen, onClose, onSubmitSuccess }) => {
                 required
               />
             </div>
+            <label
+              htmlFor="media"
+              className="p-2 cursor-pointer border border-dashed text-gray-400 text-center border-black text-sm"
+            >
+              {loading ? "Uploading images... " : "Attach media (optional)"}
+            </label>
+            <input
+              onChange={uploadFiles}
+              type="file"
+              name="media"
+              id="media"
+              multiple
+              accept="image/*, application/pdf"
+              className="hidden"
+            />
 
             <div className="flex justify-end space-x-4">
               <button
